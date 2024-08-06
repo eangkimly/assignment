@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id Int @id @default(autoincrement()) @unique
+  username String @db.VarChar(50)
+  password String @db.VarChar(255)
+  articles article[]
+}
+
+// model article {
+//   id Int @id @default(autoincrement()) @unique
+//   title String @db.VarChar(255)
+//   contents String @db.VarChar(255)
+//   createdById Int @map("created_by_id")
+//   createdBy user @relation(fields: [createdById], references: [id])
+//   is_publishedById Boolean @map("published_by_id")
+//   is_published  @relation(fields: [is_publishedById], references: [id])
+//   // created_at user @relation(fields: [createdById], references: [id])
+//   // updated_at user @relation(fields: [createdById], references: [id])
+// }
+model article{
+  id Int @id @default(autoincrement()) @unique
+  title String @db.VarChar(50)
+  content String @db.Text
+  createdBy user @relation(fields: [createdById], references: [id])
+  createdById Int
+  is_published Boolean 
+  created_at Int
+  updated_at Int
+}
